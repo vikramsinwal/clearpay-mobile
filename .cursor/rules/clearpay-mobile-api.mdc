@@ -1,0 +1,50 @@
+---
+description: Clearpay Customer Mobile REST API client conventions
+alwaysApply: true
+---
+
+# Clearpay Customer Mobile — API
+
+## Base URL and versioning
+
+- API base URL comes from environment configuration
+  (`EXPO_PUBLIC_API_BASE_URL`), never hard-coded per screen.
+- Call versioned customer routes under `/api/v1/customer/` (see Clearpay backend
+  docs: `API.md`, `API_CUSTOMER.md`, `API_CUSTOMER_AUTH.md`).
+- Do not invent endpoints, query keys, or body fields.
+
+## Response format
+
+Expect the Clearpay JSON envelope:
+
+- Success: `{ success: true, data, message, meta }`
+- Error: `{ success: false, error: { code, message, details? } }`
+- Paginated lists: items in `data` (or `data.items` per resource docs) with
+  `meta: { page, limit, total, totalPages }`
+
+Normalize errors into a single client error type for UI and Query `onError`
+handlers. Do not parse ad-hoc shapes per screen.
+
+## Auth headers
+
+- Send `Authorization: Bearer <accessToken>` on protected routes.
+- Access / refresh tokens live in SecureStore.
+- On refresh failure or unrecoverable `401`, clear the session and route to
+  sign-in.
+- Never attach tokens to non-API requests or third-party URLs.
+
+## Pagination
+
+Use the backend pagination contract (`page`, `limit`, `sort`, `order`) and map
+it through TanStack Query infinite/list queries. Do not invent client-side
+paging over full dumps.
+
+## Authority
+
+- No direct database access from the mobile app.
+- No client-side authority over financial data (balances, refunds, captures,
+  ledger correctness). Display what the API returns; mutations go through
+  documented REST endpoints only.
+- Money is integer minor units (`amountMinor`). Never use floats for money.
+- Public IDs only (`cus_…`, `pay_…`, `txn_…`) — never Mongo ObjectIds as client
+  identifiers.

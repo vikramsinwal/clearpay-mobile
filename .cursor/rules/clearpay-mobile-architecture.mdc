@@ -1,0 +1,91 @@
+---
+description: Clearpay Customer Mobile architecture and coding conventions
+alwaysApply: true
+---
+
+# Clearpay Customer Mobile — Architecture
+
+## Project
+
+Clearpay **Customer Mobile** application (iOS / Android).
+
+This is **not** the Clearpay Next.js web/admin application.
+
+## Architecture
+
+```
+Customer Mobile
+    ↓  HTTPS REST
+Clearpay REST API  (/api/v1/customer/*)
+    ↓
+Clearpay Backend
+    ↓
+MongoDB
+```
+
+The mobile app **never** connects to MongoDB. There is no admin UI and no
+customer web dashboard in this repository.
+
+## Tech stack
+
+- React Native + Expo (SDK 57+)
+- TypeScript (**strict**)
+- Expo Router (file-based routing under `app/`)
+- NativeWind
+- TanStack Query (server / API state)
+- Zustand (client UI state only)
+- React Hook Form + Zod
+- Expo Secure Store (tokens)
+- Reanimated
+- Lucide React Native
+- EAS Build / Submit
+
+## Feature-oriented layout
+
+Prefer feature modules under `features/` with shared primitives in
+`components/`, API helpers in `lib/`, hooks in `hooks/`, stores in `stores/`,
+shared types in `types/`, constants in `constants/`, utilities in `utils/`.
+
+Routes live only in `app/` (Expo Router). Do not introduce a parallel
+navigation tree.
+
+## State ownership
+
+- **TanStack Query** — anything from the Clearpay REST API (cache, refetch,
+  mutations, pagination).
+- **Zustand** — ephemeral client UI state (sheets, selected filters, local
+  preferences that are not authoritative financial data).
+- **SecureStore** — access / refresh tokens only. Never passwords.
+- Do not put server entities into Zustand as a second source of truth.
+
+## API and authority
+
+- Consume documented Clearpay customer REST APIs only (`/api/v1/customer/*`).
+- Do **not** invent endpoints, request shapes, or business rules.
+- Backend is authoritative for identity, ownership, balances, payment status,
+  and ledger data.
+- Customer ownership is enforced by the backend from the authenticated session —
+  never from a client-supplied `customerId`.
+- Do not duplicate backend business logic on the client beyond presentation and
+  input validation (Zod for forms).
+
+## Hard prohibitions
+
+- No MongoDB drivers, connection strings, or direct DB access
+- No admin functionality
+- No customer web dashboard features
+- No secrets, private keys, or signing material in mobile source or
+  `EXPO_PUBLIC_*` variables
+- No mock financial data as a permanent source of truth
+
+## MCP hierarchy
+
+1. Project requirements
+2. Architecture rules (this file)
+3. Security + API + design rules
+4. Existing implementation + Graft
+5. Feature requirements
+6. Local implementation details
+
+Before large structural changes: check Graft (`graft ask` / `graft map`),
+Codebase Memory (`docs/CODEBASE_MEMORY.md`), and Expo MCP docs tools.

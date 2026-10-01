@@ -1,25 +1,69 @@
 {
   "expo": {
-    "name": "clearpay-mobile",
+    "name": "Clearpay",
     "slug": "clearpay-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/clearpay-app-icon.png",
+    "scheme": "clearpay",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#F5F7FB",
+    "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.clearpay.customer",
+      "backgroundColor": "#F5F7FB"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
+        "backgroundColor": "#000000",
+        "foregroundImage": "./assets/images/clearpay-app-icon.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "package": "com.clearpay.customer",
+      "predictiveBackGestureEnabled": false,
+      "edgeToEdgeEnabled": true,
+      "permissions": []
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/images/clearpay-logo.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font",
+      "expo-system-ui",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFFFFF",
+          "image": "./assets/images/clearpay-logo.png",
+          "imageWidth": 200
+        }
+      ],
+      "expo-document-picker",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Clearpay to attach receipt screenshots.",
+          "cameraPermission": "Allow Clearpay to photograph payment receipts."
+        }
+      ],
+      "expo-notifications",
+      "@react-native-community/datetimepicker"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "apiBaseUrl": "https://clearpay-iota.vercel.app",
+      "apiVersion": "v1",
+      "eas": {
+        "projectId": "3408775a-8282-414c-b10e-82e0888ba38a"
+      }
+    },
+    "owner": "vikramsinwal"
   }
 }

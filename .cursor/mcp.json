@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "graft": {
+      "command": "npx",
+      "args": ["-y", "@nanonets/graft", "mcp"]
+    },
+    "expo": {
+      "url": "https://mcp.expo.dev/mcp"
+    }
+  }
+}

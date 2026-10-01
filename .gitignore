@@ -7,12 +7,14 @@ node_modules/
 .expo/
 dist/
 web-build/
+build/
 expo-env.d.ts
 
 # Native
 .kotlin/
 *.orig.*
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
@@ -26,16 +28,32 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 
-# macOS
+# macOS / Windows
 .DS_Store
+Thumbs.db
 *.pem
 
-# local env files
-.env*.local
+# environment — keep only .env.example in git
+.env
+.env.*
+!.env.example
 
 # typescript
 *.tsbuildinfo
 
+# testing / coverage
+coverage/
+
 # generated native folders
 /ios
 /android
+
+# Graft — local regenerable graph cache (config/rules are tracked)
+graft/
+.graft/
+
+# Codebase Memory — local/generated state
+.codebase-memory/
+
+# EAS
+eas-update-manifest.json

@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+group = 'expo.modules.payoutsms'
+version = '1.0.0'
+
+android {
+  namespace "expo.modules.payoutsms"
+  compileSdkVersion safeExtGet("compileSdkVersion", 35)
+  defaultConfig {
+    minSdkVersion safeExtGet("minSdkVersion", 24)
+    targetSdkVersion safeExtGet("targetSdkVersion", 35)
+  }
+  lintOptions {
+    abortOnError false
+  }
+}
+
+def safeExtGet(prop, fallback) {
+  try {
+    def extras = rootProject.extensions.findByName('ext') ?: rootProject.extensions.extraProperties
+    return extras.has(prop) ? extras.get(prop) : fallback
+  } catch (Exception ignored) {
+    return fallback
+  }
+}
+
+dependencies {
+  implementation project(':expo-modules-core')
+}

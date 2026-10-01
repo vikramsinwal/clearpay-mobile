@@ -1,0 +1,45 @@
+---
+description: Clearpay Customer Mobile security requirements
+alwaysApply: true
+---
+
+# Clearpay Customer Mobile — Security
+
+## Tokens and credentials
+
+- Store access and refresh tokens in **Expo Secure Store** only.
+- Never log tokens, Authorization headers, or refresh payloads.
+- Never store passwords (plaintext or hashed) on device.
+- Never put private keys, webhook secrets, Mongo URIs, or admin credentials in
+  the mobile app or in `EXPO_PUBLIC_*` variables.
+- `EXPO_PUBLIC_*` values are embedded in the client bundle — treat them as
+  public.
+
+## Identity and authorization
+
+- Never trust `customerId` (or any ownership id) from the client as
+  authorization. The backend derives identity from the Bearer session.
+- Never treat client-side checks (hidden buttons, local flags, route guards
+  alone) as security. They are UX only.
+- On `401`, clear local session state and require re-authentication via the
+  documented refresh/login flow — do not invent bypasses.
+
+## Transport and errors
+
+- Production API calls must use **HTTPS**.
+- Surface safe, user-facing error messages. Do not expose stack traces, Mongo
+  details, internal IDs, or raw upstream payloads to end users.
+- Do not ship debug logging that prints PII or financial payloads in production
+  builds.
+
+## Secrets hygiene
+
+- Keep `.env` out of git; commit only `.env.example` with non-secret placeholders.
+- Do not commit keystores, provisioning profiles, `.p8` / `.p12` / `.jks` files,
+  or EAS secrets in source.
+- Prefer EAS Secrets / CI for signing and store credentials.
+
+## Scope
+
+This app is customer-facing only. Do not add admin tools, privileged mutation
+shortcuts, or direct database access of any kind.

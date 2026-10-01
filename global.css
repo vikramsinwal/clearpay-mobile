@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * NativeWind web reads this before/while CSS hydrates. Without an explicit
+ * class flag, css-interop defaults to `media` and throws when syncing scheme.
+ */
+:root {
+  --css-interop-darkMode: class dark;
+}

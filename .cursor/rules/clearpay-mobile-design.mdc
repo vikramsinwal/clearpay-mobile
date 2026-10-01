@@ -1,0 +1,39 @@
+---
+description: Clearpay Customer Mobile design system principles
+alwaysApply: true
+---
+
+# Clearpay Customer Mobile — Design
+
+## Product feel
+
+- Modern, clean, trustworthy fintech UI
+- Minimal visual noise
+- Accessible contrast for text and status indicators
+- Clear financial status signals (success / pending / failed / blocked)
+
+## Brand language
+
+Prefer the Clearpay navy / blue / teal palette defined in `tailwind.config.js`
+(`navy`, `blue`, `teal`). Do not introduce arbitrary one-off colors for screens
+or components.
+
+## Implementation rules
+
+- Build reusable primitives in `components/` before inventing screen-local UI
+- Keep spacing and typography consistent across features
+- Prefer NativeWind utilities aligned to the shared theme
+- Use Lucide React Native for icons unless a brand asset is required
+- Motion (Reanimated) should clarify hierarchy or feedback — not decorate
+
+## Avoid
+
+- Duplicated button / input / card patterns per feature
+- Dense marketing clutter on transactional screens
+- Low-contrast status colors for money and payment state
+- Inventing a second design system alongside the shared tokens
+
+## Design tooling
+
+When exploring or refining UI, use available Design MCP / Mobbin references.
+Keep approved visual decisions aligned with the shared theme tokens.
